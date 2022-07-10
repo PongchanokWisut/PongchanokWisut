@@ -1,0 +1,289 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Landing - Forty by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header">
+						<a href="index.html" class="logo"><strong>Pongchanok W.</strong> <span>Quality Assurance Engineer</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="landing.html">Landing</a></li>
+							<li><a href="generic.html">Generic</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+					<div id="main">
+
+					<!-- One -->
+						<section id="one">
+							<div class="inner" id = "head-1">
+								<div>
+									<ul class="actions">
+										<li><a href="#breakdown" class="button next scrolly" 
+											>Breakdown Viz</a></li>	
+									</ul>	
+								</div>
+								<header class="major">
+
+									<h1>Analyzing Traffic Distribution by Channels</h1>
+								</header>
+	
+								<div class='tableauPlaceholder' id='viz1656505071427' style='position: relative'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;tr&#47;traffic_source&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='traffic_source&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;tr&#47;traffic_source&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1656505071427');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='1600px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+								<br>
+	
+								
+								<h2>Introduction</h2>							
+								<p></a>
+								<p>In this scenario, we have been tasked with analyzing a fictional company's data (eCommerce Website). Our stakeholders have tasked us with identifying how "prospect" (New visitors and those who have never purchased) are coming from. Further, we are tasked with determining our  marketing strategies based on our insights. Source data is linked in the Steps & Action Item section.</p>
+
+								<p>The following is my accounting of how the problem was approached:</p>
+								<b>Goal</b>
+								<p>
+									
+									Provide the marketing team with insights regarding Traffic Distribution by Channels to help them design marketing strategies aimed at increasing traffic to our Website.
+								<br>
+								<br>
+								<b>Ask:</b>							
+								<br>
+								-What data do we have available for analyzing traffic source?
+								<br>
+								-How do we calculate  each traffic source volumn?
+								<br>
+								-How can we get more website traffic by leveraging the most effective traffic source?</p>
+						
+								
+							
+							
+								
+								<p>
+								<b>Steps & Action Item:</b>
+								<br>							
+								1. Download data from <a href="https://www.udemy.com/course/advanced-sql-mysql-for-analytics-business-intelligence/"><b>Advanced SQL: MySQL Data Analysis & Business Intelligence Course</b></a> on Udemy.
+								<br>
+								2. Import and Explore data : Import data to MySQL and explore table.
+								<br>
+								3. Create Data Visualizations by Tableau
+								</p>
+								<hr>
+								<h2>Data Exploration</h2>
+								<p>The first step is to take a look at the data by viewing everything within the table.</p>
+
+								<pre><code><code><div>SELECT * 
+FROM website_sessions;
+</div></code></code></pre>
+<img src="images/explore.jpg" alt="" />
+<p>This table consisting of website_session_id, created_at, user_id, is_repeat_session, utm_source, 
+utm_content, device_type, http_referer</p>
+<hr>
+<h3>Now let's extract data that we need in order to export to visualization tool.</h3>
+<p>1. Find the most effective traffic source for 2014 by identifying the utm source and sessions.</p>
+<pre><code><code><div>SELECT
+	utm_source,
+	COUNT(DISTINCT website_session_id) AS sessions
+FROM
+   	website_sessions
+WHERE
+	created_at BETWEEN '2014-01-01' AND '2015-01-01'
+GROUP BY 1
+ORDER BY 2 DESC;
+</div></code></code></pre>
+<img src="images/withnull.jpg" alt="" />
+<p>We found NULL at the second row of the extracted table. <br>
+In order to export it to visualization tool, I'm going to change it to not_defined by using IFNULL function.</p>
+<pre><code><code><div>SELECT
+	IFNULL(utm_source, 'not_defined') AS utm_source, 
+	COUNT(DISTINCT website_session_id) AS sessions
+FROM
+   	website_sessions
+WHERE
+	created_at BETWEEN '2014-01-01' AND '2015-01-01'
+GROUP BY 1
+ORDER BY 2 DESC;
+</div></code></code></pre>
+<img src="images/nnull.jpg" alt="" />
+<hr>
+<p>2. Since gsearch seem to be the biggest driver of our business
+	,  could you pull monthly trends for gsearch sessions and orders in 2014.</p> 
+<p>Since we need to find counts of orders, the first thing that we have to do is taking a look at orders table. 
+	<pre><code><code><div>SELECT * 
+FROM orders
+WHERE utm_source = 'gsearch' 
+	AND ws.created_at BETWEEN '2014-01-01' AND '2015-01-01';
+</div></code></code></pre>
+<img src="images/orders.jpg" alt="" />
+<br>
+<br>
+<p>From now on, whenever we want to get order sessions,we will use LEFT JOIN on orders table to get order_id and then use COUNT function.</p>
+<pre><code><code><div>SELECT 
+	YEAR(ws.created_at) AS yr,
+	MONTH(ws.created_at) AS mo,
+	COUNT(DISTINCT ws.website_session_id) AS sessions,
+	COUNT(DISTINCT orders.order_id) AS orders,
+	ROUND(COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT ws.website_session_id)*100,2) AS conv_rate_percent
+FROM website_sessions AS ws
+	LEFT JOIN orders
+		ON ws.website_session_id = orders.website_session_id
+WHERE utm_source = 'gsearch' 
+	AND ws.created_at BETWEEN '2014-01-01' AND '2015-01-01'
+GROUP BY 1,2;
+</div></code></code></pre>
+<img src="images/s_o.jpg" alt="" />
+<hr>
+<p>3. Analysis monthly trends for gsearch but splitting out nonbrand and brand campaign seperately in 2014.</p>
+<p>In order to do so,  I executed by separating columns of "brand" or "nonbrand" sessions and orders using the CASE function.</p>
+
+<pre><code><code><div>SELECT 
+	YEAR(ws.created_at) AS yr,
+	MONTH(ws.created_at) AS mo,
+	COUNT(DISTINCT CASE WHEN utm_campaign = 'nonbrand' THEN ws.website_session_id ELSE NULL END) AS nonbrand_sessions,
+	COUNT(DISTINCT CASE WHEN utm_campaign = 'nonbrand' THEN orders.order_id ELSE NULL END) AS nonbrand_orders,
+	COUNT(DISTINCT CASE WHEN utm_campaign = 'brand' THEN ws.website_session_id ELSE NULL END) AS brand_sessions,
+	COUNT(DISTINCT CASE WHEN utm_campaign = 'brand' THEN orders.order_id ELSE NULL END) AS brand_orders
+FROM website_sessions AS ws
+	LEFT JOIN orders
+		ON ws.website_session_id = orders.website_session_id
+WHERE utm_source = 'gsearch' 
+	AND ws.created_at BETWEEN '2014-01-01' AND '2015-01-01'
+GROUP BY 1,2;
+</div></code></code></pre>
+<img src="images/brand_nobrand.jpg" alt="" />
+<hr>
+<p>4. While we're on gsearch, Could you dive into nonbrand and pull monthly sessions and orders split by device type in 2014?</p>
+<pre><code><code><div>SELECT 
+	YEAR(ws.created_at) AS yr,
+	MONTH(ws.created_at) AS mo,
+	COUNT(DISTINCT CASE WHEN device_type = 'desktop' THEN ws.website_session_id ELSE NULL END) AS desktop_sessions,
+	COUNT(DISTINCT CASE WHEN device_type = 'desktop' THEN orders.order_id ELSE NULL END) AS desktop_orders,
+	COUNT(DISTINCT CASE WHEN device_type = 'mobile' THEN ws.website_session_id ELSE NULL END) AS mobile_sessions,
+	COUNT(DISTINCT CASE WHEN device_type = 'mobile' THEN orders.order_id ELSE NULL END) AS mobile_orders
+FROM website_sessions AS ws
+	LEFT JOIN orders
+		ON ws.website_session_id = orders.website_session_id
+WHERE utm_source = 'gsearch' 
+	AND ws.created_at BETWEEN '2014-01-01' AND '2015-01-01'
+GROUP BY 1,2;
+</div></code></code></pre>
+<img src="images/device.jpg" alt="" />
+	<hr>
+
+
+	<!-- <h2>Viz Breakdowns</h2>
+	<p>-What data do we have available for analyzing traffic source?</p>
+	<p>-How do we calculate  each traffic source volumn?</p>
+	<p>-How can we increase sales by leveraging the traffic source which is the most valuable?</p> -->
+	<h2 id = "breakdown">Viz Breakdown & Suggestions</h2>
+	<div class='tableauPlaceholder' id='viz1656658583164' style='position: relative'><noscript><a href='#'><img alt='Sessions Per UTM Source ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionPerUTMSource&#47;Sheet2&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SessionPerUTMSource&#47;Sheet2' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionPerUTMSource&#47;Sheet2&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1656658583164');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='75%';vizElement.style.height=(divElement.offsetWidth*0.35)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+	<br>
+	<ul>
+	<li>Gsearch channels are performing very well so that we should shift more budget toward the source and try to scale it up.</li>
+	</ul>
+	<hr>
+	<div class='tableauPlaceholder' id='viz1656658899810' style='position: relative'><noscript><a href='#'><img alt='Sessions and Orders Per Devices (gsearch) ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionsandOrdersPerDevicesgsearch&#47;Sheet6&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SessionsandOrdersPerDevicesgsearch&#47;Sheet6' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionsandOrdersPerDevicesgsearch&#47;Sheet6&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1656658899810');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='75%';vizElement.style.height=(divElement.offsetWidth*0.35)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+	<br>
+	<ul>
+	<li> There are more sessions on desktop devices than on mobile devices. We should optimize and invest more on desktop devices for gsearch.</li>
+	</ul>
+	<hr>
+	<div class='tableauPlaceholder' id='viz1656659218801' style='position: relative'><noscript><a href='#'><img alt='Sessions and Orders (gsearch)  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionsandOrdersgsearch&#47;Sheet3&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SessionsandOrdersgsearch&#47;Sheet3' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionsandOrdersgsearch&#47;Sheet3&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1656659218801');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='75%';vizElement.style.height=(divElement.offsetWidth*0.35)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+	<br>
+	<ul>
+	<li>The peak months for sessions and orders are November and December, so it's a good idea to look at what we did during those two months.</li>
+	<li>It's quite stable between April and September, what would happen if we could improve the sessions and orders during those months?</li>
+	</ul>
+	<hr>
+	<div class='tableauPlaceholder' id='viz1656659571532' style='position: relative'><noscript><a href='#'><img alt='Session Per Campaign (gsearch) ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionsPerCampaigngsearch&#47;Sheet4&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SessionsPerCampaigngsearch&#47;Sheet4' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;SessionsPerCampaigngsearch&#47;Sheet4&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1656659571532');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='110%';vizElement.style.height=(divElement.offsetWidth*0.45)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+	<br>
+	<ul>
+		<li>Gsearch's nonbrand campaign generates substantially more sessions than its brand campaign, therefore  we should put more resources to it in order to increase conversion rates.</li>
+		<li>The peak months for nonbrand campaign are November and December, so it's a good idea to look at campaigns we launched during those two months.</li>
+		<li>It's quite stable between April and September, What would happen if we could optimize our campaigns more effectively during those two months?</li>
+		</ul>
+		<hr>
+
+	<br>
+	<div>
+		<ul class="actions">
+			<li><a href="index.html" class="button">Back</a></li>
+			<li><a href="#head-1" class="button next scrolly">
+				Go Top</a></li>	
+		</ul>	
+	</div>
+	
+
+
+
+		</div>
+							
+						</section>
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner">
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">pongchanok.wisut@gmail.com</a>
+									</div>
+								</section>
+	
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

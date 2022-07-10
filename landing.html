@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Pongchanok W. Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header">
+						<a href="index.html" class="logo"><strong>Pongchanok W.</strong> <span>Quality Assurance Engineer</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="landing.html">Landing</a></li>
+							<li><a href="generic.html">Generic</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+					<div id="main">
+
+					<!-- One -->
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+
+									<h1>Deaths from COVID-19</h1>
+								</header>
+								
+								<h5>Analyzing the number of confirmed deaths from COVID-19 utilizing SQL and Tableau</h5>
+								<br>
+								<div class='tableauPlaceholder' id='viz1655530719093' style='position: relative'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Covid-19_Now3&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Covid-19_Now3&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Covid-19_Now3&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    
+								var divElement = document.getElementById('viz1655530719093');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.80)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.80)+'px';} else { vizElement.style.width='100%';vizElement.style.height='1177px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement) ; 
+								</script><br>
+
+								
+
+
+								<h2>Introduction</h2>
+							
+								<p>According to the reports I've seen from the news. I'm curious about what country has the highest death rate from covid 19. So I decided to take a look at the data on the coronavirus pandemic which is updated daily from <a href="https://ourworldindata.org/covid-deaths#explore-the-global-data-on-confirmed-covid-19-deaths"><b>ourworldindata.org</b></a>
+
+								<p>The following is my accounting of how the problem was approached:</p>									<p>
+								<b>Ask:</b>
+								
+								<br>
+								-What data do we have available for covid death rate?
+								<br>
+								-How do we measure each country's success in preventing covid death?
+								<br>
+								-What strategies should each country implement in the future to prevent covid death?</p>
+						
+								
+							
+							
+								
+								<p>
+								<b>Steps & Action Item:</b>
+								<br>							
+								1. Download data from <a href="https://ourworldindata.org/covid-deaths#explore-the-global-data-on-confirmed-covid-19-deaths"><b>ourworldindata.org</b></a> (Data range from Feb 20, 2020 to Jun 30, 2022)
+								<br>
+								2. Import and Explore data: Import data to sql and explore table.
+								<br>
+								3. Create visualizations by Tableau
+								</p>
+								<hr>
+								<h2>Data Exploration</h2>
+								<p>Table consisting of covid data including - continent, location, total cases, new cases, total deaths, new deaths, total cases per million, new cases per million, population and many more.</p>
+	<b>View CovidDeaths Table</b><br><br>
+	<pre><code><div>SELECT 
+	* 
+FROM 
+	Covid_19..CovidDeaths_now
+WHERE 
+	continent IS NOT NULL
+	ORDER BY 3,4;</div></code></pre>
+
+	<b>Select Data that we are going to be using</b><br><br>
+<pre><code><div>SELECT 
+	location, 
+	date, 
+	total_cases, 
+	new_cases, 
+	total_deaths, 
+	population
+FROM 
+	Covid_19..CovidDeaths_now
+WHERE 
+	continent IS NOT NULL
+ORDER BY 1,2; 
+</div></code></pre>
+<b>Look at Total Cases vs Total Deaths</b><br>
+<b>Show what percentage of population got Covid</b><br><br>
+<pre><code><div>SELECT 
+	location, 
+	date, 
+	total_cases, 
+	total_deaths, 
+	total_deaths/total_cases as DeathPercent
+FROM 
+	Covid_19..CovidDeaths_now
+WHERE 
+	continent IS NOT NULL
+ORDER BY 1,2; 
+</div></code></pre>
+
+	
+<b>Looking at Total Cases vs Population</b><br>
+<b>Show what percentage of population got Covid</b><br><br>
+<pre><code><div>SELECT 
+	location, 
+	date, 
+	population, 
+	total_cases, 
+	total_cases/population as PercentPopulationInfected
+FROM 
+	Covid_19..CovidDeaths_now
+WHERE 
+	continent IS NOT NULL
+ORDER BY 1,2; 
+</div></code></pre>
+<b>Looking at Countries with Highest Infection Rate compared to population</b><br><br>
+<pre><code><div>SELECT 
+	location, 
+	population, 
+	MAX(total_cases) as HighestInfectionCount, 
+	MAX(total_cases/population) as PercentPopulationInfected
+FROM 
+	Covid_19..CovidDeaths_now
+GROUP BY 
+	location, population
+ORDER BY PercentPopulationInfected DESC;</div></code></pre>
+	<hr>
+	<h2>Data Analysis</h2><p>Now we are ready to get into analytics. let's get want we need to know and export separately to tableau.</p>
+	
+	<b>Table 1 : Global Numbers</b><br><br>
+<pre><code><div>SELECT 
+	SUM(new_cases) as TotalCases, SUM(CAST(new_deaths as int)) as TotalDeaths, 
+	SUM(CAST(new_deaths as int))/SUM(new_cases) as DeathPercent
+FROM 
+	Covid_19..CovidDeaths_now
+WHERE 
+	continent IS NOT NULL
+ORDER BY 1,2;
+</div></code></pre>
+<b>Table 2 : Total Deaths Per Continent</b><br><br>
+<pre><code><div>SELECT  
+	location, 
+	SUM(CAST(new_deaths as int)) as TotalDeathsCount
+FROM 
+	Covid_19..CovidDeaths_now
+WHERE 
+	continent IS NULL
+AND 
+	location NOT IN ('World', 'European Union', 'International',
+	'Upper middle income','High income', 'Lower middle income', 'Low income')
+GROUP BY 
+	location
+ORDER BY TotalDeathsCount DESC;
+</div></code></pre>
+<b>Table 3 : Percent Population Infected Per Country</b><br><br>
+<pre><code><div>SELECT 
+	location, 
+	population, 
+	MAX(total_cases) as HighestInfectionCount, 
+	MAX((total_cases/population)) as PercentPopulationInfected
+FROM 
+	Covid_19..CovidDeaths_now
+GROUP BY 
+	location,population
+ORDER BY PercentPopulationInfected DESC;
+</div></code></pre>
+<b>Table 4 : Percent Population Infected</b><br><br>
+<pre><code><div>SELECT 
+	location, 
+	population, 
+	date, 
+	MAX(total_cases) as HighestInfectionCount, 
+	MAX((total_cases/population)) as PercentPopulationInfected
+FROM 
+	Covid_19..CovidDeaths_now
+GROUP BY 
+	location,population, date
+ORDER BY HighestInfectionCount DESC;
+	</div></code></pre>
+	<hr
+
+
+	<br>
+	<h2>Conclusion</h2>
+	<p></p>
+	<p></p>
+	<p></p>
+	<div>
+		<ul class="actions">
+			<li><a href="index.html" class="button">Back</a></li>
+			<li><a href="#header" class="button next scrolly">
+				Go Top</a></li>	
+		</ul>	
+	</div>
+	
+
+
+
+		</div>
+							
+						</section>
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner">
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">information@untitled.tld</a>
+									</div>
+								</section>
+	
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
